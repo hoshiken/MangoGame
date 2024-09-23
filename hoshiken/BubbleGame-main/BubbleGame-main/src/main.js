@@ -139,7 +139,7 @@ class BubbeGame {
     if (level === 0) {
       renderOptions = {
         sprite: {
-          texture: 'https://www.kei.mz-ja.or.jp/wp-content/uploads/2016/06/2898_kinkan.jpg', // バブルの画像パス
+          texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/kinkan.png?raw=true', // バブルの画像パス
           xScale: radius / 150, // 実際の画像の幅に応じてスケールを調整
           yScale: radius / 150 // 実際の画像の高さに応じてスケールを調整
         }
