@@ -5,7 +5,7 @@ const WIDTH = 420; // 横幅
 const HEIGHT = 700; // 高さ
 const WALL_T = 10; // 壁の厚さ
 const DEADLINE = 600; // ゲームオーバーになる高さ
-const FRICTION = 0.3; // 摩擦
+const FRICTION = 0; // 摩擦
 const MASS = 1; // 重量
 const MAX_LEVEL = 11;
 const WALL_COLOR = "#ccc";
@@ -133,7 +133,25 @@ class BubbeGame {
     // バブルの大きさをランダムに決定
     const level = Math.floor(Math.random() * 5);
     const radius = level * 10 + 20;
-    // 描画位置のX座標、y座標、円の半径を渡す
+  
+    let renderOptions;
+    // レベルそれぞれで画像を表示
+    if (level === 0) {
+      renderOptions = {
+        sprite: {
+          texture: 'https://www.kei.mz-ja.or.jp/wp-content/uploads/2016/06/2898_kinkan.jpg', // バブルの画像パス
+          xScale: radius / 150, // 実際の画像の幅に応じてスケールを調整
+          yScale: radius / 150 // 実際の画像の高さに応じてスケールを調整
+        }
+      };
+    } else {
+      renderOptions = {
+        fillStyle: BUBBLE_COLORS[level],
+        lineWidth: 1
+      };
+    }
+  
+    // 描画位置のX座標、Y座標、円の半径を渡す
     const currentBubble = Bodies.circle(this.defaultX, 30, radius, {
       isSleeping: true,
       label: "bubble_" + level,
@@ -144,14 +162,13 @@ class BubbeGame {
         category: OBJECT_CATEGORIES.BUBBLE_PENDING, // まだ落下位置の決定前なのですでにあるバブルと衝突しないようにする
         mask: OBJECT_CATEGORIES.WALL | OBJECT_CATEGORIES.BUBBLE,
       },
-      render: {
-        fillStyle: BUBBLE_COLORS[level],
-        lineWidth: 1,
-      },
+      render: renderOptions,
     });
+  
     this.currentBubble = currentBubble;
     Composite.add(this.engine.world, [currentBubble]);
   }
+  
 
   putCurrentBubble() {
     if (this.currentBubble) {
@@ -180,10 +197,10 @@ class BubbeGame {
   showReadyMessage() {
     const p = document.createElement("p");
     p.classList.add("mainText");
-    p.textContent = "バブルゲーム";
+    p.textContent = "マンゴーゲーム";
     const p2 = document.createElement("p");
     p2.classList.add("subText");
-    p2.textContent = "バブルを大きくしよう";
+    p2.textContent = "宮崎の特産品を知ってみよう";
     const button = document.createElement("button");
     button.setAttribute("type", "button");
     button.classList.add("button");
