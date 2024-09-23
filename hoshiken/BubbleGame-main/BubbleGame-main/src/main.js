@@ -132,6 +132,7 @@ class BubbeGame {
     }
     // バブルの大きさをランダムに決定
     const level = Math.floor(Math.random() * 5);
+    console.log(level);
     const radius = level * 10 + 20;
   
     let renderOptions;
@@ -139,14 +140,22 @@ class BubbeGame {
     if (level === 0) {
       renderOptions = {
         sprite: {
-          texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/kinkan.png?raw=true', // バブルの画像パス
-          xScale: radius / 150, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 150 // 実際の画像の高さに応じてスケールを調整
+          texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/kinkan.png?raw=true', // レベル0のバブルの画像パス
+          xScale: radius / 300, // 実際の画像の幅に応じてスケールを調整
+          yScale: radius / 300 // 実際の画像の高さに応じてスケールを調整
+        }
+      };
+    } else if (level === 1) {
+      renderOptions = {
+        sprite: {
+          texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // レベル1のバブルの画像パス
+          xScale: radius / 300, // 実際の画像の幅に応じてスケールを調整
+          yScale: radius / 300 // 実際の画像の高さに応じてスケールを調整
         }
       };
     } else {
       renderOptions = {
-        fillStyle: BUBBLE_COLORS[level],
+        fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
         lineWidth: 1
       };
     }
@@ -168,6 +177,7 @@ class BubbeGame {
     this.currentBubble = currentBubble;
     Composite.add(this.engine.world, [currentBubble]);
   }
+  
   
 
   putCurrentBubble() {
