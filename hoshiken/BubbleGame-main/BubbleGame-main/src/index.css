@@ -1,48 +1,87 @@
-.main{
-
+body {
+  background: linear-gradient(to bottom, #FFC7AF 0%, #FFC7AF 50%, #FDEFF9 100%);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 }
+
 .container {
   position: relative;
-  background-color: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
+  background: linear-gradient(to bottom, #FFE4E1 0%, #FFAD90 50%, #FDEFF9 100%);
   width: 420px;
   height: 700px;
   margin: 100px auto 0;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #FFB6C1; /* 柔らかいボーダー */
 }
+
 .message {
   position: absolute;
   display: none;
   text-align: center;
   top: 200px;
-  width: 100%;
-  background-color: 	#FFEFD5;
-  padding: 0 0 30px;
+  width: 90%;
+  background: #FFEFD5;
+  padding: 20px 0 30px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
 }
+
 .message p {
   margin: 0px;
 }
+
 .mainText {
   font-size: 60px;
-  color:#FF9900 ;
-  font-family: 'Roboto', sans-serif;
+  color: #FF773E;
+  font-family: 'Roboto', cursive;
+  text-shadow: 2px 2px 5px #FFC7AF;
 }
+
 .subText {
   font-size: 32px;
-  color: #000;
-  font-family: 'Roboto', sans-serif;
+  color: #333;
+  font-family: 'Roboto', cursive;
 }
 
 .button {
   width: 150px;
   height: 40px;
   font-size: 24px;
+  background-color: #FF773E;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
+.button:hover {
+  background-color: #FF905A;
+  transform: scale(1.05);
 }
 
 .score-container {
   width: 420px;
   margin: 10px auto 0;
+  text-align: center;
 }
 
-body {
-  background-color: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
+.score {
+  font-size: 24px;
+  color: #FF773E;
+  font-weight: bold;
+}
+
+.bubbles {
+  margin-top: 20px;
+}
+
+.bubbles::before {
+  content: '🎈🎈🎈';
+  font-size: 32px;
+  color: #FFAD90;
 }
