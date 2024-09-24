@@ -3,7 +3,7 @@
 }
 .container {
   position: relative;
-  background-color: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
+  background-image: linear-gradient(to bottom, #FF773E 0%, #FFEBCD 100%);
   width: 420px;
   height: 700px;
   margin: 100px auto 0;
@@ -44,7 +44,5 @@
 }
 
 body {
-  background-color: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
+  background-image: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
 }
-
-
