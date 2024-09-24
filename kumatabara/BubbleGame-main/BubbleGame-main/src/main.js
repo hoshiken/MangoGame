@@ -141,7 +141,7 @@ class BubbeGame {
   
     let renderOptions;
     // レベルそれぞれで画像を表示
-    for(i=0; i<2; i++){
+    for(i=0; i<4; i++){
       if(level === i) {
         renderOptions = {
           sprite: {
@@ -176,7 +176,7 @@ class BubbeGame {
     //     lineWidth: 1
     //   };
     // }
-    if(level > 1) {
+    if(level > 3) {
       renderOptions = {
         fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
         lineWidth: 1
@@ -309,17 +309,38 @@ class BubbeGame {
         const newRadius = newLevel * 10 + 20;
   
         let renderOptions;
-  
+        
+        for(i=0; i<4; i++){
+          if (currentBubbleLevel === i && newLevel === i+1) {
+            renderOptions = {
+              sprite: {
+                texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
+                xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
+                yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
+              }
+            };
+          }
+      }
         // レベル0同士が衝突してレベル1が生成された場合、画像を使う
-        if (currentBubbleLevel === 0 && newLevel === 1) {
-          renderOptions = {
-            sprite: {
-              texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // バブルの画像パス
-              xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
-              yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
-            }
-          };
-        } else {
+        // if (currentBubbleLevel === 0 && newLevel === 1) {
+        //   renderOptions = {
+        //     sprite: {
+        //       texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
+        //       xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
+        //       yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
+        //     }
+        //   };
+        // } else if(currentBubbleLevel === 1 && newLevel ===2){
+        //   renderOptions = {
+        //     sprite: {
+        //       texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
+        //       xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
+        //       yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
+        //     }
+        //   };
+        // }
+        // else 
+        if(newLevel>3){
           // それ以外のバブルは通常の色
           renderOptions = {
             fillStyle: BUBBLE_COLORS[newLevel],
