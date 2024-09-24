@@ -23,6 +23,9 @@ const BUBBLE_COLORS = {
   10: "#ffff7f",
 };
 let image_number = 0;
+let i;
+
+
 const OBJECT_CATEGORIES = {
   WALL: 0x0001,
   BUBBLE: 0x0002,
@@ -138,25 +141,42 @@ class BubbeGame {
   
     let renderOptions;
     // レベルそれぞれで画像を表示
-    if (level === 0) {
-      image_number = 0;
-      renderOptions = {
-        sprite: {
-          texture: `./images/fruits_${image_number}.png`, // レベル0のバブルの画像パス
-          xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
-        }
-      };
-    } else if (level === 1) {
-      image_number = 1;
-      renderOptions = {
-        sprite: {
-          texture: `./images/fruits_${image_number}.png`, // レベル1のバブルの画像パス
-          xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
-        }
-      };
-    } else {
+    for(i=0; i<2; i++){
+      if(level === i) {
+        renderOptions = {
+          sprite: {
+            texture: `./images/fruits_${i}.png`, // レベル0のバブルの画像パス
+            xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
+            yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
+          }
+        };
+      }
+    }
+    // if (level === 0) {
+    //   image_number = 0;
+    //   renderOptions = {
+    //     sprite: {
+    //       texture: `./images/fruits_${image_number}.png`, // レベル0のバブルの画像パス
+    //       xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
+    //       yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
+    //     }
+    //   };
+    // } else if (level === 1) {
+    //   image_number = 1;
+    //   renderOptions = {
+    //     sprite: {
+    //       texture: `./images/fruits_${image_number}.png`, // レベル1のバブルの画像パス
+    //       xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
+    //       yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
+    //     }
+    //   };
+    //  } //else {
+    //   renderOptions = {
+    //     fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
+    //     lineWidth: 1
+    //   };
+    // }
+    if(level > 1) {
       renderOptions = {
         fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
         lineWidth: 1
