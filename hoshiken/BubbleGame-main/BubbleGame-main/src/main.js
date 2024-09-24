@@ -141,16 +141,16 @@ class BubbeGame {
       renderOptions = {
         sprite: {
           texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/kinkan.png?raw=true', // レベル0のバブルの画像パス
-          xScale: radius / 300, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 300 // 実際の画像の高さに応じてスケールを調整
+          xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
+          yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
         }
       };
     } else if (level === 1) {
       renderOptions = {
         sprite: {
           texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // レベル1のバブルの画像パス
-          xScale: radius / 300, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 300 // 実際の画像の高さに応じてスケールを調整
+          xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
+          yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
         }
       };
     } else {
@@ -273,15 +273,37 @@ class BubbeGame {
         const currentBubbleLevel = Number(bodyA.label.substring(7));
         // スコア加算
         this.setScore(this.score + 2 ** currentBubbleLevel);
+        
         if (currentBubbleLevel === 11) {
           // 最大サイズの場合新たなバブルは生まれない
           Composite.remove(this.engine.world, [bodyA, bodyB]);
           continue;
         }
+  
         const newLevel = currentBubbleLevel + 1;
         const newX = (bodyA.position.x + bodyB.position.x) / 2;
         const newY = (bodyA.position.y + bodyB.position.y) / 2;
         const newRadius = newLevel * 10 + 20;
+  
+        let renderOptions;
+  
+        // レベル0同士が衝突してレベル1が生成された場合、画像を使う
+        if (currentBubbleLevel === 0 && newLevel === 1) {
+          renderOptions = {
+            sprite: {
+              texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // バブルの画像パス
+              xScale: newRadius / 300, // 実際の画像の幅に応じてスケールを調整
+              yScale: newRadius / 300 // 実際の画像の高さに応じてスケールを調整
+            }
+          };
+        } else {
+          // それ以外のバブルは通常の色
+          renderOptions = {
+            fillStyle: BUBBLE_COLORS[newLevel],
+            lineWidth: 1
+          };
+        }
+  
         const newBubble = Bodies.circle(newX, newY, newRadius, {
           label: "bubble_" + newLevel,
           friction: FRICTION,
@@ -291,16 +313,15 @@ class BubbeGame {
             category: OBJECT_CATEGORIES.BUBBLE,
             mask: OBJECT_CATEGORIES.WALL | OBJECT_CATEGORIES.BUBBLE,
           },
-          render: {
-            fillStyle: BUBBLE_COLORS[newLevel],
-            lineWidth: 1,
-          },
+          render: renderOptions,
         });
+  
         Composite.remove(this.engine.world, [bodyA, bodyB]);
         Composite.add(this.engine.world, [newBubble]);
       }
     }
   }
+  
 
   // 落とすバブルのX位置を移動する
   handleMouseMove(e) {
