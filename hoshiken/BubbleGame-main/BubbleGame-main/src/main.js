@@ -292,8 +292,8 @@ class BubbeGame {
           renderOptions = {
             sprite: {
               texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // バブルの画像パス
-              xScale: newRadius / 300, // 実際の画像の幅に応じてスケールを調整
-              yScale: newRadius / 300 // 実際の画像の高さに応じてスケールを調整
+              xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
+              yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
             }
           };
         } else {
