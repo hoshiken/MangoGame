@@ -147,8 +147,8 @@ class BubbeGame {
         renderOptions = {
           sprite: {
             texture: `./images/fruits_${i}.png`, // レベル0のバブルの画像パス
-            xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-            yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
+            xScale: radius / 500, // 実際の画像の幅に応じてスケールを調整
+            yScale: radius / 500 // 実際の画像の高さに応じてスケールを調整
           }
         };
       }
@@ -316,8 +316,8 @@ class BubbeGame {
             renderOptions = {
               sprite: {
                 texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
-                xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
-                yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
+                xScale: newRadius / 500, // 実際の画像の幅に応じてスケールを調整
+                yScale: newRadius / 500 // 実際の画像の高さに応じてスケールを調整
               }
             };
           }
