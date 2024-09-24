@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Miyazaki Game</title>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+    <script src="./main.js"></script>
+    <script src="./trivia.js"></script>
+    <link rel="stylesheet" type="text/css" href="./index.css" media="screen" />
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="container">
+        <div class="message"></div>
+      </div>
+      <div class="score-container">
+        <p class="score"></p>
+      </div>
+
+      <div class="mango-container">
+        <img id="mangoImage" src="images/mango.jpg" alt="宮崎のマンゴー" />
+        <div id="mangoDescription" class="description" style="display: none;">
+            宮崎のマンゴーは甘さとジューシーさで有名です。特に、完熟したマンゴーはとても美味しいです。
+        </div>
+      </div>
+      
+      <!-- 次のバブル表示用の要素をここに配置 -->
+      <div class="next-bubble-container">
+        <canvas id="nextBubblePreview" width="60" height="60"></canvas>
+      </div>
+
+      <div class="trivia"></div>
+
+      <div class="left-info">
+        <img id="miyazakiLandscape" src="images/miyazaki_huukei.jpg" alt="宮崎の風景" />
+        <p id="miyazakiDescription">宮崎の美しい自然や文化を紹介します。</p>
+      </div>
+      
+      
+    </div>
+  </body>
+</html>
