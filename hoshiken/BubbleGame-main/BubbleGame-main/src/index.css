@@ -3,6 +3,7 @@
 }
 .container {
   position: relative;
+  background-color: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
   width: 420px;
   height: 700px;
   margin: 100px auto 0;
@@ -22,13 +23,12 @@
 .mainText {
   font-size: 60px;
   color:#FF9900 ;
-  body {
-    font-family: 'Roboto', sans-serif;
-  }
+  font-family: 'Roboto', sans-serif;
 }
 .subText {
   font-size: 32px;
   color: #000;
+  font-family: 'Roboto', sans-serif;
 }
 
 .button {
@@ -41,4 +41,8 @@
 .score-container {
   width: 420px;
   margin: 10px auto 0;
+}
+
+body {
+  background-color: linear-gradient(to bottom,#FF773E  0%,#FFEBCD	  100%);
 }
