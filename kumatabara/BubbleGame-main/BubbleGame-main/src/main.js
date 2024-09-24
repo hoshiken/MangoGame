@@ -22,7 +22,7 @@ const BUBBLE_COLORS = {
   9: "#bfff7f",
   10: "#ffff7f",
 };
-
+let image_number = 0;
 const OBJECT_CATEGORIES = {
   WALL: 0x0001,
   BUBBLE: 0x0002,
@@ -39,6 +39,7 @@ class BubbeGame {
   gameover = false;
   defaultX = WIDTH / 2;
   message;
+  
 
   constructor(container, message, scoreChangeCallBack) {
     this.message = message;
@@ -138,17 +139,19 @@ class BubbeGame {
     let renderOptions;
     // レベルそれぞれで画像を表示
     if (level === 0) {
+      image_number = 0;
       renderOptions = {
         sprite: {
-          texture: './images/kinkan.png', // レベル0のバブルの画像パス
+          texture: `./images/fruits_${image_number}.png`, // レベル0のバブルの画像パス
           xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
           yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
         }
       };
     } else if (level === 1) {
+      image_number = 1;
       renderOptions = {
         sprite: {
-          texture: './images/raichi.png', // レベル1のバブルの画像パス
+          texture: `./images/fruits_${image_number}.png`, // レベル1のバブルの画像パス
           xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
           yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
         }
