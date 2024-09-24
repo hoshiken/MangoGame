@@ -57,6 +57,7 @@ class BubbeGame {
         width: WIDTH,
         height: HEIGHT,
         wireframes: false,
+        background: 'transparent',
       },
     });
     this.runner = Runner.create();

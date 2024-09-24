@@ -3,7 +3,6 @@
 }
 .container {
   position: relative;
-  background-image: linear-gradient(to bottom, #FF773E 0%, #FFEBCD 100%);
   width: 420px;
   height: 700px;
   margin: 100px auto 0;
