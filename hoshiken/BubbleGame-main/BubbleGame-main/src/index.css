@@ -13,15 +13,18 @@
   text-align: center;
   top: 200px;
   width: 100%;
-  background-color: rgba(255,255,255,0.8);
+  background-color: 	#FFEFD5;
   padding: 0 0 30px;
 }
 .message p {
   margin: 0px;
 }
 .mainText {
-  font-size: 64px;
-  color: #F00;
+  font-size: 60px;
+  color:#FF9900 ;
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
 }
 .subText {
   font-size: 32px;
