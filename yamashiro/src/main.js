@@ -1,3 +1,22 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+// Firebaseの設定（自分のプロジェクト情報に置き換えてください）
+const firebaseConfig = {
+  apiKey: "AIzaSyBP1BgEN2kyJzp1WtRgiMJvZ7boRSyZYl8",
+  authDomain: "mango-game0924.firebaseapp.com",
+  databaseURL: "https://mango-game0924-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mango-game0924",
+  storageBucket: "mango-game0924.appspot.com",
+  messagingSenderId: "226203834944",
+  appId: "1:226203834944:web:73720566970a3870575da5",
+  measurementId: "G-FX7M7MRM1V"
+};
+
+// Firebaseの初期化
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 const { Bodies, Body, Composite, Engine, Events, Render, Runner, Sleeping } =
   Matter;
 
@@ -40,6 +59,7 @@ class BubbleGame {
   defaultX = WIDTH / 2;
   message;
   nextBubble = undefined; // 次のバブルを保存する変数
+  playerName;
 
   constructor(container, message, scoreChangeCallBack) {
     this.message = message;
@@ -65,82 +85,54 @@ class BubbleGame {
   }
 
   init() {
-    // リセット時も使うので一旦全部消す
     Composite.clear(this.engine.world);
     this.resetMessage();
-
-    // 状態初期化
     this.gameover = false;
     this.setScore(0);
 
-    // 地面と壁作成
-    // 矩形の場合X座標、Y座標、横幅、高さの順に指定、最後にオプションを設定できる
-    const ground = Bodies.rectangle(
-      WIDTH / 2,
-      HEIGHT - WALL_T / 2,
-      WIDTH,
-      WALL_T,
-      {
-        isStatic: true,
-        label: "ground",
-        render: {
-          fillStyle: WALL_COLOR,
-        },
-      }
-    );
+    const ground = Bodies.rectangle(WIDTH / 2, HEIGHT - WALL_T / 2, WIDTH, WALL_T, {
+      isStatic: true,
+      label: "ground",
+      render: { fillStyle: WALL_COLOR },
+    });
     const leftWall = Bodies.rectangle(WALL_T / 2, HEIGHT / 2, WALL_T, HEIGHT, {
       isStatic: true,
       label: "leftWall",
-      render: {
-        fillStyle: WALL_COLOR,
-      },
+      render: { fillStyle: WALL_COLOR },
     });
-    const rightWall = Bodies.rectangle(
-      WIDTH - WALL_T / 2,
-      HEIGHT / 2,
-      WALL_T,
-      HEIGHT,
-      {
-        isStatic: true,
-        label: "rightWall",
-        render: {
-          fillStyle: WALL_COLOR,
-        },
-      }
-    );
-    // 地面と壁を描画
+    const rightWall = Bodies.rectangle(WIDTH - WALL_T / 2, HEIGHT / 2, WALL_T, HEIGHT, {
+      isStatic: true,
+      label: "rightWall",
+      render: { fillStyle: WALL_COLOR },
+    });
     Composite.add(this.engine.world, [ground, leftWall, rightWall]);
     Runner.run(this.runner, this.engine);
 
-    // ステータスをゲーム準備完了に
     this.gameStatus = "ready";
     this.showReadyMessage();
   }
 
-  start(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.gameStatus === "ready") {
-      this.gameStatus = "canput";
-      this.createNewBubble();
-      this.resetMessage();
-    }
+  start(playerName) {
+    this.playerName = playerName; // プレイヤー名を保存
+    this.message.style.display = "none"; // メッセージを非表示
+    this.gameStatus = "canput"; // ゲームステータスを変更
+    this.createNewBubble(); // 新しいバブルを作成
+    this.resetMessage(); // メッセージをリセット
+    this.addToRanking(this.playerName, 0); // 名前と初期スコアをランキングに追加
   }
 
+
   createNewBubble() {
-    if (this.gameover) {
-        return;
-    }
+    if (this.gameover) return;
 
     if (this.nextBubble) {
       this.currentBubble = this.nextBubble;
       Composite.add(this.engine.world, [this.currentBubble]);
     }
 
-    // バブルの大きさをランダムに決定
     const level = Math.floor(Math.random() * 5);
     const radius = level * 10 + 20;
-    
+
     this.nextBubble = Bodies.circle(this.defaultX, 30, radius, {
       isSleeping: true,
       label: "bubble_" + level,
@@ -158,53 +150,17 @@ class BubbleGame {
     });
 
     this.renderNextBubblePreview(radius, BUBBLE_COLORS[level]);
-}
+  }
 
-renderNextBubblePreview(radius, color) {
-  const canvas = document.getElementById("nextBubblePreview");
-  const ctx = canvas.getContext("2d");
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.beginPath();
-  ctx.arc(canvas.width / 2, canvas.height / 2, radius / 3, 0, 2 * Math.PI);
-  ctx.fillStyle = color;
-  ctx.fill();
-}
-
-
-  /*createNewBubble() {
-    if (this.gameover) {
-      return;
-    }
-    // バブルの大きさをランダムに決定
-    const level = Math.floor(Math.random() * 5);
-    const radius = level * 10 + 20;
-    const imagePath = `./images/bubble_${level}.png`; // ここに画像パスを設定
-  
-    // 描画位置のX座標、y座標、円の半径を渡す
-    const currentBubble = Bodies.circle(this.defaultX, 30, radius, {
-      isSleeping: true,
-      label: "bubble_" + level,
-      friction: FRICTION,
-      mass: MASS,
-      collisionFilter: {
-        group: 0,
-        category: OBJECT_CATEGORIES.BUBBLE_PENDING, // まだ落下位置の決定前なのですでにあるバブルと衝突しないようにする
-        mask: OBJECT_CATEGORIES.WALL | OBJECT_CATEGORIES.BUBBLE,
-      },
-      render: {
-        sprite: {
-          texture: imagePath,  // 画像パスを指定
-          xScale: radius / 50, // 画像サイズをバブルの大きさに合わせる（調整）
-          yScale: radius / 50, // 画像サイズをバブルの大きさに合わせる（調整）
-        },
-      },
-    });
-    this.currentBubble = currentBubble;
-    Composite.add(this.engine.world, [currentBubble]);
-  }*/
-
+  renderNextBubblePreview(radius, color) {
+    const canvas = document.getElementById("nextBubblePreview");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, canvas.height / 2, radius / 3, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
 
   putCurrentBubble() {
     if (this.currentBubble) {
@@ -214,8 +170,6 @@ renderNextBubblePreview(radius, color) {
     }
   }
 
-  // ゲームオーバー判定
-  // 本家がどうしてるかわからないけど一定以上の高さに上方向の速度を持つオブジェクトが存在している場合ゲームオーバーとする
   checkGameOver() {
     const bubbles = Composite.allBodies(this.engine.world).filter((body) =>
       body.label.startsWith("bubble_")
@@ -231,22 +185,45 @@ renderNextBubblePreview(radius, color) {
   }
 
   showReadyMessage() {
+    // ゲーム開始メッセージを表示
     const p = document.createElement("p");
     p.classList.add("mainText");
     p.textContent = "バブルゲーム";
+
     const p2 = document.createElement("p");
     p2.classList.add("subText");
     p2.textContent = "バブルを大きくしよう";
+
+    // 名前入力フィールドを追加
+    const nameInput = document.createElement("input");
+    nameInput.setAttribute("type", "text");
+    nameInput.setAttribute("placeholder", "名前を入力してください");
+    nameInput.classList.add("name-input");
+
+    // ゲーム開始ボタンを生成
     const button = document.createElement("button");
     button.setAttribute("type", "button");
     button.classList.add("button");
-    button.addEventListener("click", this.start.bind(this));
     button.innerText = "ゲーム開始";
+
+    // ゲーム開始ボタンのクリックイベント
+    button.addEventListener("click", () => {
+      const playerName = nameInput.value; // 入力された名前を取得
+      if (playerName) {
+        this.start(playerName); // 名前を引数としてstartメソッドを呼び出し
+      } else {
+        alert("名前を入力してください。");
+      }
+    });
+
+    // メッセージエリアに要素を追加
     this.message.appendChild(p);
     this.message.appendChild(p2);
+    this.message.appendChild(nameInput);
     this.message.appendChild(button);
     this.message.style.display = "block";
   }
+
 
   showGameOverMessage() {
     const p = document.createElement("p");
@@ -255,13 +232,29 @@ renderNextBubblePreview(radius, color) {
     const p2 = document.createElement("p");
     p2.classList.add("subText");
     p2.textContent = `Score: ${this.score}`;
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "スコア送信";
+    submitButton.classList.add("button");
+    submitButton.addEventListener("click", () => {
+      submitScoreToFirebase(this.playerName, this.score); // ここでplayerNameを送信
+      this.resetMessage(); // メッセージをリセット
+      this.init(); // ゲームを初期化して再開
+    });
+
     const button = document.createElement("button");
     button.setAttribute("type", "button");
     button.classList.add("button");
-    button.addEventListener("click", this.init.bind(this));
+    button.addEventListener("click", () => {
+      this.init(); // ゲームを初期化
+      this.setScore(0); // スコアをゼロにリセット
+      this.start(this.playerName); // 同じ名前で再スタート
+    });
     button.innerText = "もう一度";
+
     this.message.appendChild(p);
     this.message.appendChild(p2);
+    this.message.appendChild(submitButton);
     this.message.appendChild(button);
     this.message.style.display = "block";
   }
@@ -272,9 +265,7 @@ renderNextBubblePreview(radius, color) {
   }
 
   handleClick() {
-    if (this.gameover) {
-      return;
-    }
+    if (this.gameover) return;
     if (this.gameStatus === "canput") {
       this.putCurrentBubble();
       this.gameStatus = "interval";
@@ -288,45 +279,47 @@ renderNextBubblePreview(radius, color) {
   handleCollision({ pairs }) {
     for (const pair of pairs) {
       const { bodyA, bodyB } = pair;
-      // 既に衝突して消滅済みのバブルについての判定だった場合スキップ
-      if (
-        !Composite.get(this.engine.world, bodyA.id, "body") ||
-        !Composite.get(this.engine.world, bodyB.id, "body")
-      ) {
-        continue;
-      }
-      if (bodyA.label === bodyB.label && bodyA.label.startsWith("bubble_")) {
-        const currentBubbleLevel = Number(bodyA.label.substring(7));
-        // スコア加算
-        this.setScore(this.score + 2 ** currentBubbleLevel);
-        if (currentBubbleLevel === 11) {
-          // 最大サイズの場合新たなバブルは生まれない
-          Composite.remove(this.engine.world, [bodyA, bodyB]);
-          continue;
-        }
-        const newLevel = currentBubbleLevel + 1;
-        const newX = (bodyA.position.x + bodyB.position.x) / 2;
-        const newY = (bodyA.position.y + bodyB.position.y) / 2;
-        const newRadius = newLevel * 10 + 20;
-        const newBubble = Bodies.circle(newX, newY, newRadius, {
-          label: "bubble_" + newLevel,
+      if (!Composite.get(this.engine.world, bodyA.id, "body") || !Composite.get(this.engine.world, bodyB.id, "body")) continue;
+
+      const aLevel = +bodyA.label.split("_")[1];
+      const bLevel = +bodyB.label.split("_")[1];
+      if (aLevel === bLevel && aLevel < MAX_LEVEL) {
+        const level = aLevel + 1;
+        const radius = level * 10 + 20;
+
+        const mergedBubble = Bodies.circle(bodyA.position.x, bodyA.position.y, radius, {
           friction: FRICTION,
           mass: MASS,
+          label: "bubble_" + level,
           collisionFilter: {
             group: 0,
             category: OBJECT_CATEGORIES.BUBBLE,
             mask: OBJECT_CATEGORIES.WALL | OBJECT_CATEGORIES.BUBBLE,
           },
           render: {
-            fillStyle: BUBBLE_COLORS[newLevel],
+            fillStyle: BUBBLE_COLORS[level],
             lineWidth: 1,
           },
         });
-        Body.setVelocity(newBubble, { x: 0, y: 0 });
-        Body.setPosition(newBubble, { x: newX, y: newY });
+
+        Body.setVelocity(mergedBubble, {
+          x: (bodyA.velocity.x + bodyB.velocity.x) / 2,
+          y: (bodyA.velocity.y + bodyB.velocity.y) / 2,
+        });
+
         Composite.remove(this.engine.world, [bodyA, bodyB]);
-        Composite.add(this.engine.world, [newBubble]);
+        Composite.add(this.engine.world, [mergedBubble]);
+
+        this.setScore(this.score + (level + 1) * 10);
       }
+    }
+  }
+
+  handleMouseMove(e) {
+    const x = e.offsetX;
+    this.defaultX = Math.min(WIDTH - 10, Math.max(10, x));
+    if (this.currentBubble) {
+      Body.setPosition(this.currentBubble, { x: this.defaultX, y: this.currentBubble.position.y });
     }
   }
 
@@ -335,38 +328,60 @@ renderNextBubblePreview(radius, color) {
     this.scoreChangeCallBack(this.score);
   }
 
-  handleMouseMove(e) {
-    if (!this.currentBubble || this.gameStatus !== "canput") return;
-    const x = e.clientX - this.render.canvas.getBoundingClientRect().x;
-    const maxX = WIDTH - this.currentBubble.circleRadius;
-    const minX = this.currentBubble.circleRadius;
-    if (x > minX && x < maxX) {
-      Body.setPosition(this.currentBubble, { x, y: this.currentBubble.position.y });
-      this.defaultX = x;
-    }
+  addToRanking(name, score) {
+    if (score === 0) return; // スコアがゼロのときは何もしない
+
+    const rankingList = document.getElementById("rankingList");
+    const listItem = document.createElement("li");
+    listItem.textContent = `${name}: ${score}`;
+    rankingList.appendChild(listItem);
   }
+
 }
 
-window.onload = () => {
+window.onload = function () {
   const container = document.querySelector(".container");
   const message = document.querySelector(".message");
+  const score = document.querySelector(".score"); // score を取得
 
-  const onChangeScore = (val) => {
-    const score = document.querySelector(".score");
-    score.textContent = `Score: ${val}`;
-  };
-
-  // ゲーム作成
-  const game = new BubbleGame(container, message, onChangeScore);
-  // 初期化する
-  game.init();
-
-  const mangoImage = document.getElementById("mangoImage");
-  const mangoDescription = document.getElementById("mangoDescription");
-
-  mangoImage.addEventListener("click", () => {
-    const isVisible = mangoDescription.style.display === "block";
-    mangoDescription.style.display = isVisible ? "none" : "block";
-  });
+  if (container && message && score) { // 要素が存在するか確認
+    const game = new BubbleGame(container, message, (s) => (score.textContent = s));
+    game.init();
+    displayRanking(); // ランキング表示
+  } else {
+    console.error("必要なHTML要素が見つかりません。");
+  }
 };
+
+
+function submitScoreToFirebase(playerName, score) {
+  const dbRef = ref(db, "scores");
+  const newScoreRef = push(dbRef);
+  set(newScoreRef, {
+    playerName: playerName, // プレイヤーの名前を保存
+    score: score,
+    timestamp: new Date().toISOString(),
+  }).then(() => {
+    alert("スコアが送信されました！");
+  }).catch((error) => {
+    alert("スコアの送信に失敗しました: " + error);
+  });
+}
+
+function displayRanking() {
+  const scoresRef = ref(db, "scores");
+  onValue(scoresRef, (snapshot) => {
+    const scores = snapshot.val();
+    const rankingList = document.getElementById("rankingList");
+    rankingList.innerHTML = "";
+
+    const sortedScores = Object.values(scores || {}).sort((a, b) => b.score - a.score);
+
+    sortedScores.slice(0, 5).forEach((score, index) => {
+      const li = document.createElement("li");
+      li.textContent = `${index + 1}位: ${score.playerName} - ${score.score}点`; // 名前を追加
+      rankingList.appendChild(li);
+    });
+  });
+}
 
