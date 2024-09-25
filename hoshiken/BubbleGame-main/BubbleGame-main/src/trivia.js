@@ -51,7 +51,7 @@ window.addEventListener('load', () => {
         // 5秒後に非表示
         setTimeout(() => {
             triviaElement.style.display = "none";
-        }, 5000);
+        }, 9500);
 
         currentTriviaIndex = (currentTriviaIndex + 1) % triviaList.length; // 次のトリビアへ、最後までいったら最初に戻る
     }
