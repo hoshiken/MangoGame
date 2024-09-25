@@ -21,7 +21,7 @@ window.addEventListener('load', () => {
         { img: 'images/fruits_4.png', description: 'ピーマン' },
         { img: 'images/fruits_5.png', description: 'ぶんたん' },
         { img: 'images/fruits_6.png', description: 'マンゴー' },
-        { img: 'images/fruits_7.png', description: '砂土原ナス' },
+        { img: 'images/fruits_7.png', description: '佐土原ナス' },
         { img: 'images/fruits_8.png', description: '黒皮南瓜' },
         { img: 'images/fruits_9.png', description: 'パパイヤ' },
         { img: 'images/fruits_10.png', description: 'アールスメロン' },
