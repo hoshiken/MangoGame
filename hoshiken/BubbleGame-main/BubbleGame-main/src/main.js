@@ -154,7 +154,7 @@ class BubbleGame {
       return;
     }
     // バブルの大きさをランダムに決定
-    const level = 9//Math.floor(Math.random() * 5);
+    const level = Math.floor(Math.random() * 5);
     console.log(level);
     const radius = level * 10 + 20;
   
