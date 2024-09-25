@@ -10,7 +10,7 @@ body {
   background: linear-gradient(to bottom, #FFE4E1 0%, #FFAD90 50%, #FDEFF9 100%);
   width: 420px;
   height: 700px;
-  margin: 100px auto 0;
+  margin: 35px auto 0;
   border-radius: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border: 2px solid #FFB6C1; /* 柔らかいボーダー */

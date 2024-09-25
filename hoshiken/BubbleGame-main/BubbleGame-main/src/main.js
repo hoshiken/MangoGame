@@ -53,6 +53,7 @@ class BubbeGame {
         width: WIDTH,
         height: HEIGHT,
         wireframes: false,
+        background: 'transparent',
       },
     });
     this.runner = Runner.create();
@@ -177,7 +178,6 @@ class BubbeGame {
     this.currentBubble = currentBubble;
     Composite.add(this.engine.world, [currentBubble]);
   }
-  
   
 
   putCurrentBubble() {
