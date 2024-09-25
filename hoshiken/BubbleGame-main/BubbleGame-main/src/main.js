@@ -4,7 +4,7 @@ let i;
 const WIDTH = 420; // 横幅
 const HEIGHT = 700; // 高さ
 const WALL_T = 10; // 壁の厚さ
-const DEADLINE = 600; // ゲームオーバーになる高さ
+const DEADLINE = 690; // ゲームオーバーになる高さ
 const FRICTION = 0; // 摩擦
 const MASS = 1; // 重量
 const MAX_LEVEL = 1.1;
