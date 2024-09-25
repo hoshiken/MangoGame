@@ -27,7 +27,7 @@ const DEADLINE = 690; // ゲームオーバーになる高さ
 const FRICTION = 0; // 摩擦
 const MASS = 1; // 重量
 const MAX_LEVEL = 1.1;
-const MAX_FRUITS = 8;
+const MAX_FRUITS = 11;
 const WALL_COLOR = "#ccc";
 const BUBBLE_COLORS = {
   0: "#ff7f7f",
@@ -170,12 +170,12 @@ class BubbleGame {
       }
     }
 
-    if(level > MAX_FRUITS-1) {
-      renderOptions = {
-        fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
-        lineWidth: 1
-      };
-    }
+    // if(level > MAX_FRUITS-1) {
+    //   renderOptions = {
+    //     fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
+    //     lineWidth: 1
+    //   };
+    // }
   
     // 描画位置のX座標、Y座標、円の半径を渡す
     const currentBubble = Bodies.circle(this.defaultX, 30, radius, {
@@ -346,13 +346,13 @@ class BubbleGame {
           }
       }
       
-        if(newLevel>MAX_FRUITS-1){
-          // それ以外のバブルは通常の色
-          renderOptions = {
-            fillStyle: BUBBLE_COLORS[newLevel],
-            lineWidth: 1
-          };
-        }
+        // if(newLevel>MAX_FRUITS-1){
+        //   // それ以外のバブルは通常の色
+        //   renderOptions = {
+        //     fillStyle: BUBBLE_COLORS[newLevel],
+        //     lineWidth: 1
+        //   };
+        // }
   
         const newBubble = Bodies.circle(newX, newY, newRadius, {
           label: "bubble_" + newLevel,
