@@ -83,10 +83,10 @@ body {
 
 .right-image {
   position: absolute;
-  right: 200px; /* 右側に固定 */
-  top: 20%; /* 垂直方向の中央に配置 */
+  right: 100px; /* 右側に固定 */
+  top: 30%; /* 垂直方向の中央に配置 */
   transform: translateY(-50%); /* 垂直方向の中央揃え */
-  width: 250px; /* 画像の幅を適切に指定 */
+  width: 350px; /* 画像の幅を適切に指定 */
   height: auto; /* アスペクト比を保持 */
 }
 
@@ -176,7 +176,7 @@ body {
   padding: 0; /* パディングをゼロに */
   margin: 0; /* マージンをゼロに */
   position: absolute; /* 絶対位置指定 */
-  top: 50%; /* 縦方向の中央に配置 */
+  top: 70%; /* 縦方向の中央に配置 */
   right: 10px; /* 右からの距離を設定 */
   transform: translateY(-50%); /* 垂直方向の中央揃え */
   background-color: rgba(255, 255, 255, 0.8); /* 半透明の背景 */
