@@ -8,7 +8,7 @@ const DEADLINE = 650; // ゲームオーバーになる高さ
 const FRICTION = 0; // 摩擦
 const MASS = 1.1; // 重量
 const MAX_LEVEL = 11;
-const MAX_FRUITS = 4;
+const MAX_FRUITS = 6;
 const WALL_COLOR = "#ccc";
 const BUBBLE_COLORS = {
   0: "#ff7f7f",
@@ -154,30 +154,7 @@ class BubbeGame {
         };
       }
     }
-    // if (level === 0) {
-    //   image_number = 0;
-    //   renderOptions = {
-    //     sprite: {
-    //       texture: `./images/fruits_${image_number}.png`, // レベル0のバブルの画像パス
-    //       xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-    //       yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
-    //     }
-    //   };
-    // } else if (level === 1) {
-    //   image_number = 1;
-    //   renderOptions = {
-    //     sprite: {
-    //       texture: `./images/fruits_${image_number}.png`, // レベル1のバブルの画像パス
-    //       xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-    //       yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
-    //     }
-    //   };
-    //  } //else {
-    //   renderOptions = {
-    //     fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
-    //     lineWidth: 1
-    //   };
-    // }
+
     if(level > MAX_FRUITS-1) {
       renderOptions = {
         fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
@@ -323,25 +300,7 @@ class BubbeGame {
             };
           }
       }
-        // レベル0同士が衝突してレベル1が生成された場合、画像を使う
-        // if (currentBubbleLevel === 0 && newLevel === 1) {
-        //   renderOptions = {
-        //     sprite: {
-        //       texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
-        //       xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
-        //       yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
-        //     }
-        //   };
-        // } else if(currentBubbleLevel === 1 && newLevel ===2){
-        //   renderOptions = {
-        //     sprite: {
-        //       texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
-        //       xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
-        //       yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
-        //     }
-        //   };
-        // }
-        // else 
+      
         if(newLevel>MAX_FRUITS-1){
           // それ以外のバブルは通常の色
           renderOptions = {
