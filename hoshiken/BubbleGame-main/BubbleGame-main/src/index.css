@@ -180,3 +180,46 @@ body {
   padding: 10px; /* パディングを追加 */
 }
 
+/*豆知識*/
+.trivia {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  z-index: 10;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* 一文字ずつフェードインするアニメーション */
+@keyframes fadeIn {
+  0% { opacity: 0; } /* 最初は透明 */
+  100% { opacity: 1; } /* 完全に表示される */
+}
+
+.trivia span {
+  opacity: 0; /* 最初は透明に */
+  display: inline-block;
+}
+
+
+/* 観光・文化紹介*/
+.left-info {
+  position: absolute;
+  top: 100px; /* 必要に応じて調整 */
+  left: 0;
+  width: 400px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* 背景を少し透明に */
+  z-index: 5; /* 表示優先順位 */
+  overflow: hidden; /* コンテンツが大きすぎる場合は隠す */
+}
+
+.left-info img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}

@@ -20,6 +20,7 @@ const db = getDatabase(app);
 const { Bodies, Body, Composite, Engine, Events, Render, Runner, Sleeping } =
   Matter;
 let i;
+let newLevel;
 const WIDTH = 420; // 横幅
 const HEIGHT = 700; // 高さ
 const WALL_T = 10; // 壁の厚さ
@@ -59,6 +60,7 @@ class BubbleGame {
   gameover = false;
   defaultX = WIDTH / 2;
   message;
+  
   playerName;
 
   constructor(container, message, scoreChangeCallBack) {
@@ -320,13 +322,15 @@ class BubbleGame {
         // スコア加算
         this.setScore(this.score + 2 ** currentBubbleLevel);
         
-        if (currentBubbleLevel === 11) {
+        if (currentBubbleLevel === 10) {
           // 最大サイズの場合新たなバブルは生まれない
           Composite.remove(this.engine.world, [bodyA, bodyB]);
           continue;
         }
   
-        const newLevel = currentBubbleLevel + 1;
+        if(currentBubbleLevel<10){
+          newLevel = currentBubbleLevel + 1;
+        }
         const newX = (bodyA.position.x + bodyB.position.x) / 2;
         const newY = (bodyA.position.y + bodyB.position.y) / 2;
         const newRadius = newLevel * 10 + 20;
