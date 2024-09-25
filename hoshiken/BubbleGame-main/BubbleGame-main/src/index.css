@@ -21,9 +21,9 @@ body {
   display: none;
   text-align: center;
   top: 200px;
-  width: 90%;
+  width: 100%;
   background: #FFEFD5;
-  padding: 20px 0 30px;
+  padding: 0 0 30px;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
@@ -34,7 +34,12 @@ body {
 }
 
 .mainText {
-  font-size: 60px;
+  .mochiy-pop-p-one-regular {
+    font-family: "Mochiy Pop P One", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }  
+  font-size: 58px;
   color: #FF773E;
   font-family: 'Roboto', cursive;
   text-shadow: 2px 2px 5px #FFC7AF;
@@ -81,7 +86,7 @@ body {
 }
 
 .bubbles::before {
-  content: '🎈🎈🎈';
+  content: '🥭🥭🥭';
   font-size: 32px;
   color: #FFAD90;
 }
