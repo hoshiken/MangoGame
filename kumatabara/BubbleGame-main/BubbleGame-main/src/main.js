@@ -4,10 +4,11 @@ const { Bodies, Body, Composite, Engine, Events, Render, Runner, Sleeping } =
 const WIDTH = 420; // 横幅
 const HEIGHT = 700; // 高さ
 const WALL_T = 10; // 壁の厚さ
-const DEADLINE = 600; // ゲームオーバーになる高さ
+const DEADLINE = 650; // ゲームオーバーになる高さ
 const FRICTION = 0; // 摩擦
 const MASS = 1.1; // 重量
 const MAX_LEVEL = 11;
+const MAX_FRUITS = 4;
 const WALL_COLOR = "#ccc";
 const BUBBLE_COLORS = {
   0: "#ff7f7f",
@@ -142,7 +143,7 @@ class BubbeGame {
   
     let renderOptions;
     // レベルそれぞれで画像を表示
-    for(i=0; i<4; i++){
+    for(i=0; i<MAX_FRUITS; i++){
       if(level === i) {
         renderOptions = {
           sprite: {
@@ -177,7 +178,7 @@ class BubbeGame {
     //     lineWidth: 1
     //   };
     // }
-    if(level > 3) {
+    if(level > MAX_FRUITS-1) {
       renderOptions = {
         fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
         lineWidth: 1
@@ -311,7 +312,7 @@ class BubbeGame {
   
         let renderOptions;
         
-        for(i=0; i<4; i++){
+        for(i=0; i<MAX_FRUITS; i++){
           if (currentBubbleLevel === i && newLevel === i+1) {
             renderOptions = {
               sprite: {
@@ -341,7 +342,7 @@ class BubbeGame {
         //   };
         // }
         // else 
-        if(newLevel>3){
+        if(newLevel>MAX_FRUITS-1){
           // それ以外のバブルは通常の色
           renderOptions = {
             fillStyle: BUBBLE_COLORS[newLevel],
