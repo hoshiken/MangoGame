@@ -9,6 +9,18 @@ window.addEventListener('load', () => {
         { img: 'images/aosima.jpg', description: '宮崎の青島' },
         { img: 'images/udo.jpg', description: '宮崎の鵜戸神宮' },
         { img: 'images/obijouka.jpg', description: '宮崎の伝統的な祭り' },
+        { img: 'images/fruits_0.png', description: '金柑' },
+        { img: 'images/fruits_1.png', description: 'ライチ' },
+        { img: 'images/fruits_2.png', description: 'へべす' },
+        { img: 'images/fruits_3.png', description: '日向夏' },
+        { img: 'images/fruits_4.png', description: 'ピーマン' },
+        { img: 'images/fruits_5.png', description: 'ぶんたん' },
+        { img: 'images/fruits_6.png', description: 'マンゴー' },
+        { img: 'images/fruits_7.png', description: '砂土原ナス' },
+        { img: 'images/fruits_8.png', description: '黒皮南瓜' },
+        { img: 'images/fruits_9.png', description: 'パパイヤ' },
+        { img: 'images/fruits_10.png', description: 'アールスメロン' },
+
     ];
 
     let currentIndex = 0;
