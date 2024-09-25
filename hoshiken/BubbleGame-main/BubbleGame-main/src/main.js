@@ -1,3 +1,22 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+// Firebaseの設定（自分のプロジェクト情報に置き換えてください）
+const firebaseConfig = {
+  apiKey: "AIzaSyBP1BgEN2kyJzp1WtRgiMJvZ7boRSyZYl8",
+  authDomain: "mango-game0924.firebaseapp.com",
+  databaseURL: "https://mango-game0924-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mango-game0924",
+  storageBucket: "mango-game0924.appspot.com",
+  messagingSenderId: "226203834944",
+  appId: "1:226203834944:web:73720566970a3870575da5",
+  measurementId: "G-FX7M7MRM1V"
+};
+
+// Firebaseの初期化
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 const { Bodies, Body, Composite, Engine, Events, Render, Runner, Sleeping } =
   Matter;
 let i;
@@ -31,7 +50,7 @@ const OBJECT_CATEGORIES = {
   BUBBLE_PENDING: 0x0004,
 };
 
-class BubbeGame {
+class BubbleGame {
   engine;
   render;
   runner;
@@ -42,6 +61,7 @@ class BubbeGame {
   defaultX = WIDTH / 2;
   message;
   
+  playerName;
 
   constructor(container, message, scoreChangeCallBack) {
     this.message = message;
@@ -120,14 +140,13 @@ class BubbeGame {
     this.showReadyMessage();
   }
 
-  start(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (this.gameStatus === "ready") {
-      this.gameStatus = "canput";
-      this.createNewBubble();
-      this.resetMessage();
-    }
+  start(playerName) {
+    this.playerName = playerName; // プレイヤー名を保存
+    this.message.style.display = "none"; // メッセージを非表示
+    this.gameStatus = "canput"; // ゲームステータスを変更
+    this.createNewBubble(); // 新しいバブルを作成
+    this.resetMessage(); // メッセージをリセット
+    this.addToRanking(this.playerName, 0); // 名前と初期スコアをランキングに追加
   }
 
   createNewBubble() {
@@ -210,13 +229,28 @@ class BubbeGame {
     const p2 = document.createElement("p");
     p2.classList.add("subText");
     p2.textContent = "宮崎の特産品を知ってみよう";
+    // 名前入力フィールドを追加
+    const nameInput = document.createElement("input");
+    nameInput.setAttribute("type", "text");
+    nameInput.setAttribute("placeholder", "名前を入力してください");
+    nameInput.classList.add("name-input");
+
     const button = document.createElement("button");
     button.setAttribute("type", "button");
     button.classList.add("button");
-    button.addEventListener("click", this.start.bind(this));
     button.innerText = "ゲーム開始";
+    // ゲーム開始ボタンのクリックイベント
+    button.addEventListener("click", () => {
+      const playerName = nameInput.value; // 入力された名前を取得
+      if (playerName) {
+        this.start(playerName); // 名前を引数としてstartメソッドを呼び出し
+      } else {
+        alert("名前を入力してください。");
+      }
+    });
     this.message.appendChild(p);
     this.message.appendChild(p2);
+    this.message.appendChild(nameInput);
     this.message.appendChild(button);
     this.message.style.display = "block";
   }
@@ -228,13 +262,28 @@ class BubbeGame {
     const p2 = document.createElement("p");
     p2.classList.add("subText");
     p2.textContent = `Score: ${this.score}`;
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "スコア送信";
+    submitButton.classList.add("button");
+    submitButton.addEventListener("click", () => {
+      submitScoreToFirebase(this.playerName, this.score); // ここでplayerNameを送信
+      this.resetMessage(); // メッセージをリセット
+      this.init(); // ゲームを初期化して再開
+    });
+
     const button = document.createElement("button");
     button.setAttribute("type", "button");
     button.classList.add("button");
-    button.addEventListener("click", this.init.bind(this));
+    button.addEventListener("click", () => {
+      this.init(); // ゲームを初期化
+      this.setScore(0); // スコアをゼロにリセット
+      this.start(this.playerName); // 同じ名前で再スタート
+    });
     button.innerText = "もう一度";
     this.message.appendChild(p);
     this.message.appendChild(p2);
+    this.message.appendChild(submitButton);
     this.message.appendChild(button);
     this.message.style.display = "block";
   }
@@ -353,17 +402,60 @@ class BubbeGame {
       this.scoreChangeCallBack(score);
     }
   }
+
+  addToRanking(name, score) {
+    if (score === 0) return; // スコアがゼロのときは何もしない
+
+    const rankingList = document.getElementById("rankingList");
+    const listItem = document.createElement("li");
+    listItem.textContent = `${name}: ${score}`;
+    rankingList.appendChild(listItem);
+  }
 }
 
-window.onload = () => {
+window.onload = function () {
   const container = document.querySelector(".container");
   const message = document.querySelector(".message");
-  const onChangeScore = (val) => {
-    const score = document.querySelector(".score");
-    score.replaceChildren(`Score: ${val}`);
-  };
-  // とりあえずゲーム作成
-  const game = new BubbeGame(container, message, onChangeScore);
-  // とりあえず初期化する
-  game.init();
+  const score = document.querySelector(".score"); // score を取得
+
+  if (container && message && score) { // 要素が存在するか確認
+    const game = new BubbleGame(container, message, (s) => (score.textContent = s));
+    game.init();
+    displayRanking(); // ランキング表示
+  } else {
+    console.error("必要なHTML要素が見つかりません。");
+  }
 };
+
+function submitScoreToFirebase(playerName, score) {
+  const dbRef = ref(db, "scores");
+  const newScoreRef = push(dbRef);
+  set(newScoreRef, {
+    playerName: playerName, // プレイヤーの名前を保存
+    score: score,
+    timestamp: new Date().toISOString(),
+  }).then(() => {
+    alert("スコアが送信されました！");
+  }).catch((error) => {
+    alert("スコアの送信に失敗しました: " + error);
+  });
+}
+
+function displayRanking() {
+  const scoresRef = ref(db, "scores");
+  onValue(scoresRef, (snapshot) => {
+    const scores = snapshot.val();
+    const rankingList = document.getElementById("rankingList");
+    rankingList.innerHTML = "";
+
+    const sortedScores = Object.values(scores || {}).sort((a, b) => b.score - a.score);
+
+    sortedScores.slice(0, 5).forEach((score, index) => {
+      const li = document.createElement("li");
+      li.textContent = `${index + 1}位: ${score.playerName} - ${score.score}点`; // 名前を追加
+      rankingList.appendChild(li);
+    });
+  });
+}
+
+

@@ -1,28 +1,67 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Bubble Game</title>
-    <meta charset="UTF-8" />
-    <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
-    <script src="./main.js"></script>
-    <link rel="stylesheet" type="text/css" href="./index.css" media="screen" />
-    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
-  </head>
+=======
+>>>>>>> Stashed changes
 
-  <body>
-    <div class="main">
-      <div class="container">
-        <div class="message">
-          <p class="mainText">バブルゲーム</p>
-          <p class="subText">バブルを大きくしよう！</p>
-          <button class="button">ゲーム開始</button>
-        </div>
-      </div>
-      <div class="score-container">
-        <p class="score">Score: 0</p>
-        <div class="bubbles"></div>
+<head>
+  <title>Bubble Game</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script type="module">
+    // Firebase SDKのインポート
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-analytics.js";
+    import { getDatabase } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+    // Firebase設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyBP1BgEN2kyJzp1WtRgiMJvZ7boRSyZYl8",
+      authDomain: "mango-game0924.firebaseapp.com",
+      databaseURL: "https://mango-game0924-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "mango-game0924",
+      storageBucket: "mango-game0924.appspot.com",
+      messagingSenderId: "226203834944",
+      appId: "1:226203834944:web:73720566970a3870575da5",
+      measurementId: "G-FX7M7MRM1V"
+    };
+
+    // Firebaseの初期化
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getDatabase(app);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
+  <script src="./main.js" type="module"></script>
+  <script src="./trivia.js"></script>
+  <link rel="stylesheet" type="text/css" href="./index.css" media="screen" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="main">
+    <div class="container">
+      <div class="message">
+        <p class="mainText">バブルゲーム</p>
+        <p class="subText">バブルを大きくしよう！</p>
+        <button class="button">ゲーム開始</button>
       </div>
     </div>
-  </body>
-</html>
+    <div class="score-container">
+      <p class="score">Score: 0</p>
+      <div class="bubbles"></div>
+    </div>
 
+    <div class="trivia"></div>
+
+    <div class="left-info">
+      <img id="miyazakiLandscape" src="images/miyazaki_huukei.jpg" alt="宮崎の風景" />
+      <p id="miyazakiDescription">宮崎の美しい自然や文化を紹介します。</p>
+    </div>
+
+    <ul id="rankingList"></ul>
+  </div>
+</body>
+
+</html>
