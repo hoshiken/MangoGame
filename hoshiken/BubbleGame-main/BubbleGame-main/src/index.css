@@ -81,6 +81,16 @@ body {
   border: 1px solid #edaa89; /* 柔らかいボーダー */
 }
 
+.right-image {
+  position: absolute;
+  right: 0; /* 右側に固定 */
+  top: 20%; /* 垂直方向の中央に配置 */
+  transform: translateY(-50%); /* 垂直方向の中央揃え */
+  width: 200px; /* 画像の幅を適切に指定 */
+  height: auto; /* アスペクト比を保持 */
+}
+
+
 .message {
   position: absolute;
   display: none;
