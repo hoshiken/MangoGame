@@ -1,6 +1,6 @@
 const { Bodies, Body, Composite, Engine, Events, Render, Runner, Sleeping } =
   Matter;
-
+let i;
 const WIDTH = 420; // 横幅
 const HEIGHT = 700; // 高さ
 const WALL_T = 10; // 壁の厚さ
@@ -8,6 +8,7 @@ const DEADLINE = 600; // ゲームオーバーになる高さ
 const FRICTION = 0; // 摩擦
 const MASS = 1; // 重量
 const MAX_LEVEL = 11;
+const MAX_FRUITS = 8;
 const WALL_COLOR = "#ccc";
 const BUBBLE_COLORS = {
   0: "#ff7f7f",
@@ -138,23 +139,19 @@ class BubbeGame {
   
     let renderOptions;
     // レベルそれぞれで画像を表示
-    if (level === 0) {
-      renderOptions = {
-        sprite: {
-          texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/kinkan.png?raw=true', // レベル0のバブルの画像パス
-          xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
-        }
-      };
-    } else if (level === 1) {
-      renderOptions = {
-        sprite: {
-          texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // レベル1のバブルの画像パス
-          xScale: radius / 400, // 実際の画像の幅に応じてスケールを調整
-          yScale: radius / 400 // 実際の画像の高さに応じてスケールを調整
-        }
-      };
-    } else {
+    for(i=0; i<MAX_FRUITS; i++){
+      if(level === i) {
+        renderOptions = {
+          sprite: {
+            texture: `./images/fruits_${i}.png`, // レベル0のバブルの画像パス
+            xScale: radius / 500, // 実際の画像の幅に応じてスケールを調整
+            yScale: radius / 500 // 実際の画像の高さに応じてスケールを調整
+          }
+        };
+      }
+    }
+
+    if(level > MAX_FRUITS-1) {
       renderOptions = {
         fillStyle: BUBBLE_COLORS[level], // レベル2以上は色で描画
         lineWidth: 1
@@ -288,15 +285,19 @@ class BubbeGame {
         let renderOptions;
   
         // レベル0同士が衝突してレベル1が生成された場合、画像を使う
-        if (currentBubbleLevel === 0 && newLevel === 1) {
-          renderOptions = {
-            sprite: {
-              texture: 'https://github.com/hoshiken/MangoGame/blob/main/hoshiken/BubbleGame-main/BubbleGame-main/src/raichi.png?raw=true', // バブルの画像パス
-              xScale: newRadius / 400, // 実際の画像の幅に応じてスケールを調整
-              yScale: newRadius / 400 // 実際の画像の高さに応じてスケールを調整
-            }
-          };
-        } else {
+        for(i=0; i<MAX_FRUITS; i++){
+          if (currentBubbleLevel === i && newLevel === i+1) {
+            renderOptions = {
+              sprite: {
+                texture: `./images/fruits_${newLevel}.png`, // バブルの画像パス
+                xScale: newRadius / 500, // 実際の画像の幅に応じてスケールを調整
+                yScale: newRadius / 500 // 実際の画像の高さに応じてスケールを調整
+              }
+            };
+          }
+      }
+      
+        if(newLevel>MAX_FRUITS-1){
           // それ以外のバブルは通常の色
           renderOptions = {
             fillStyle: BUBBLE_COLORS[newLevel],
