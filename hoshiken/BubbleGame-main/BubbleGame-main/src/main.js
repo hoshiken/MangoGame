@@ -4,10 +4,10 @@ let i;
 const WIDTH = 420; // 横幅
 const HEIGHT = 700; // 高さ
 const WALL_T = 10; // 壁の厚さ
-const DEADLINE = 600; // ゲームオーバーになる高さ
+const DEADLINE = 690; // ゲームオーバーになる高さ
 const FRICTION = 0; // 摩擦
 const MASS = 1; // 重量
-const MAX_LEVEL = 11;
+const MAX_LEVEL = 1.1;
 const MAX_FRUITS = 8;
 const WALL_COLOR = "#ccc";
 const BUBBLE_COLORS = {
@@ -163,7 +163,7 @@ class BubbeGame {
       isSleeping: true,
       label: "bubble_" + level,
       friction: FRICTION,
-      mass: MASS,
+      mass: MASS/(level+1),
       collisionFilter: {
         group: 0,
         category: OBJECT_CATEGORIES.BUBBLE_PENDING, // まだ落下位置の決定前なのですでにあるバブルと衝突しないようにする
@@ -308,7 +308,7 @@ class BubbeGame {
         const newBubble = Bodies.circle(newX, newY, newRadius, {
           label: "bubble_" + newLevel,
           friction: FRICTION,
-          mass: MASS,
+          mass: MASS/(newLevel+1),
           collisionFilter: {
             group: 0,
             category: OBJECT_CATEGORIES.BUBBLE,
