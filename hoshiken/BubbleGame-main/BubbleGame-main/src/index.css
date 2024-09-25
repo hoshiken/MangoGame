@@ -88,7 +88,10 @@ body {
   top: 200px;
   width: 100%;
   background: #FFEFD5;
-  padding: 0 0 30px;
+  padding: 0.2em 0.5em;
+  border: 1px solid #edaa89;
+  box-shadow: 0px 0px 0px 10px ;
+  border: dashed 2px white;
   border-radius: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
@@ -96,6 +99,7 @@ body {
 
 .message p {
   margin: 0px;
+  padding: 0;
 }
 
 .mainText {
