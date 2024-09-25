@@ -90,3 +90,24 @@ body {
   font-size: 32px;
   color: #FFAD90;
 }
+
+/*ranking*/
+#rankingList {
+  list-style-type: none; /* 点を消す */
+  padding: 0; /* パディングをゼロに */
+  margin: 0; /* マージンをゼロに */
+  position: absolute; /* 絶対位置指定 */
+  top: 50%; /* 縦方向の中央に配置 */
+  right: 10px; /* 右からの距離を設定 */
+  transform: translateY(-50%); /* 垂直方向の中央揃え */
+  background-color: rgba(255, 255, 255, 0.8); /* 半透明の背景 */
+  border-radius: 5px; /* 角を丸く */
+  padding: 10px; /* パディングを追加 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* 影を付けて浮き上がった感じに */
+}
+
+#rankingList li {
+  margin: 5px 0; /* 各リスト項目の間に隙間を追加 */
+  padding: 10px; /* パディングを追加 */
+}
+
