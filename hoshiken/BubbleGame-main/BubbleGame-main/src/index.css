@@ -177,7 +177,7 @@ body {
   margin: 0; /* マージンをゼロに */
   position: absolute; /* 絶対位置指定 */
   top: 70%; /* 縦方向の中央に配置 */
-  right: 10px; /* 右からの距離を設定 */
+  right: 200px; /* 右からの距離を設定 */
   transform: translateY(-50%); /* 垂直方向の中央揃え */
   background-color: rgba(255, 255, 255, 0.8); /* 半透明の背景 */
   border-radius: 5px; /* 角を丸く */
