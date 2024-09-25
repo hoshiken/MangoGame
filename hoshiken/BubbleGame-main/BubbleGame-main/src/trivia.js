@@ -1,14 +1,19 @@
 window.addEventListener('load', () => {
     const triviaList = [
-        "宮崎県は、日本国内で最も日照時間が長い地域の一つです。",
-        "マンゴーは、宮崎の特産品で、ブランド名『太陽のタマゴ』で知られています。",
-        "宮崎地鶏『みやざき地頭鶏』は、その歯ごたえと濃厚な旨味で有名です。",
+        "宮崎県は金柑の生産量が日本一。そのまま皮ごと食べられるのが特徴です。",
+        "ライチは熱帯果樹のうちの一つ。ジューシーで甘いライチは、美容や健康にも良い果物です。",
+        "宮崎県特産の柑橘類で、すだちやかぼすに似た爽やかな酸味が特徴。特に魚料理との相性が抜群です。",
+        "宮崎県発祥の柑橘類。白い内皮ごと食べられる珍しい柑橘で、さっぱりとした甘さが特徴です。",
+        "宮崎県はピーマンの生産量が全国トップクラス。宮崎の温暖な気候は、ピーマンの栽培に最適です。",
+        "ブンタン（文旦）は、柑橘の一種で、酸味と甘みのバランスが良い。宮崎でも特産品として栽培されています。",
+        "宮崎のマンゴーは「太陽のタマゴ」として知られるブランド。濃厚な甘さと香りが特長で、贈答品としても人気です。",
+        "宮崎県佐土原町で作られるナス。大きめで肉厚な果肉が特徴で、煮物や焼きナスにぴったりです。",
+        "宮崎県で生産される黒皮のカボチャ。甘みが強く、煮物やスープにすると美味しいです。",
+        "宮崎県では青パパイヤの栽培が盛ん。野菜としてサラダや炒め物に使われ、健康食品として注目されています。",
+        "高級メロンの代名詞。宮崎県の温室栽培で作られるアールスメロンは、甘くてジューシーで、見た目も美しいのが特徴です。",
     ];
 
     const landscapes = [
-        { img: 'images/aosima.jpg', description: '宮崎の青島' },
-        { img: 'images/udo.jpg', description: '宮崎の鵜戸神宮' },
-        { img: 'images/obijouka.jpg', description: '宮崎の伝統的な祭り' },
         { img: 'images/fruits_0.png', description: '金柑' },
         { img: 'images/fruits_1.png', description: 'ライチ' },
         { img: 'images/fruits_2.png', description: 'へべす' },
@@ -20,14 +25,13 @@ window.addEventListener('load', () => {
         { img: 'images/fruits_8.png', description: '黒皮南瓜' },
         { img: 'images/fruits_9.png', description: 'パパイヤ' },
         { img: 'images/fruits_10.png', description: 'アールスメロン' },
-
     ];
 
-    let currentIndex = 0;
+    let currentTriviaIndex = 0;
+    let currentLandscapeIndex = 0;
 
-
-    function showRandomTrivia() {
-        const trivia = triviaList[Math.floor(Math.random() * triviaList.length)];
+    function showNextTrivia() {
+        const trivia = triviaList[currentTriviaIndex];
         const triviaElement = document.querySelector(".trivia");
 
         // triviaテキストを空にしてから、一文字ずつspanタグに包む
@@ -48,19 +52,19 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             triviaElement.style.display = "none";
         }, 5000);
+
+        currentTriviaIndex = (currentTriviaIndex + 1) % triviaList.length; // 次のトリビアへ、最後までいったら最初に戻る
     }
-
-
-    setInterval(showRandomTrivia, 10000);
-
 
     function changeLandscape() {
         const landscapeElement = document.getElementById('miyazakiLandscape');
         const descriptionElement = document.getElementById('miyazakiDescription');
-        landscapeElement.src = landscapes[currentIndex].img;
-        descriptionElement.textContent = landscapes[currentIndex].description;
-        currentIndex = (currentIndex + 1) % landscapes.length;
-      }
-      
-      setInterval(changeLandscape, 10000); // 5秒ごとに変更
+        landscapeElement.src = landscapes[currentLandscapeIndex].img;
+        descriptionElement.textContent = landscapes[currentLandscapeIndex].description;
+        currentLandscapeIndex = (currentLandscapeIndex + 1) % landscapes.length; // 次のランドスケープへ、最後までいったら最初に戻る
+    }
+
+    // 10秒ごとに次のトリビアと風景を表示
+    setInterval(showNextTrivia, 10000);
+    setInterval(changeLandscape, 10000);
 });
