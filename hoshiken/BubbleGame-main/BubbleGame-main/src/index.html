@@ -6,8 +6,92 @@
     <script src="https://cdn.jsdelivr.net/npm/matter-js@0.19.0/build/matter.min.js"></script>
     <script src="./main.js"></script>
     <link rel="stylesheet" type="text/css" href="./index.css" media="screen" />
-    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
-  </head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One:weught@400&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shabon Bubble</title>
+  <style>
+   .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      box-shadow: inset -10px -10px 30px rgba(255, 255, 255, 0.5),
+                  inset 10px 10px 20px rgba(255, 255, 255, 0.2);
+      animation: float 10s infinite;
+      opacity: 0.6;
+    }
+
+    /* サイズと位置をランダムに調整 */
+    .bubble:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      left: 10%;
+      animation-duration: 12s;
+      animation-delay: 0s;
+    }
+
+    .bubble:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      left: 30%;
+      animation-duration: 15s;
+      animation-delay: 2s;
+    }
+
+    .bubble:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      left: 50%;
+      animation-duration: 8s;
+      animation-delay: 4s;
+    }
+
+    .bubble:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      left: 70%;
+      animation-duration: 14s;
+      animation-delay: 6s;
+    }
+
+    .bubble:nth-child(5) {
+      width: 150px;
+      height: 150px;
+      left: 90%;
+      animation-duration: 18s;
+      animation-delay: 8s;
+    }
+
+    @keyframes float {
+      0% {
+        bottom: -200px;
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(20px);
+      }
+      100% {
+        bottom: 100%;
+        transform: translateX(-20px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+</body>
+</html>
+
+ </head>
 
   <body>
     <div class="main">
